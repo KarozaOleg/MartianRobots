@@ -7,17 +7,22 @@ namespace MartianRobots.Service
 {
     public class RobotCommandService
     {
+        private Map Map { get; }
         private Dictionary<int, Robot> RobotsById { get; }
         private List<RobotCommand> RobotsCommands { get; }
 
-        public RobotCommandService(List<Robot> robots, List<RobotCommand> robotsCommands)
+        public RobotCommandService(Map map, List<Robot> robots, List<RobotCommand> robotsCommands)
         {
+            Map = map ?? throw new ArgumentException(nameof(map));
             RobotsById = ReturnRobotsById(robots) ?? throw new ArgumentNullException(nameof(robots));
             RobotsCommands = robotsCommands ?? throw new ArgumentNullException(nameof(robotsCommands));
         }
 
         private Dictionary<int, Robot> ReturnRobotsById(List<Robot> robots)
         {
+            if (robots == null)
+                throw new ArgumentNullException(nameof(robots));
+
             return robots
                 .GroupBy(r => r.Id)
                 .ToDictionary(r => r.Key, r => r.Single());
@@ -32,7 +37,12 @@ namespace MartianRobots.Service
 
                 var robot = RobotsById[robotCommands.Id];
                 foreach (var command in robotCommands.Commands)
-                    HandleRobotCommand(robot, command);                
+                {
+                    HandleRobotCommand(robot, command.Value);
+                    if (command.Type == CommandType.Turning)
+                        if (Map.IsNewCoordinatesInMap(robot.Coordinates) == false)
+                            robot.SetIsLostToTrue();
+                }
             }
         }
 

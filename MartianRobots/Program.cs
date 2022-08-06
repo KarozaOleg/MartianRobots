@@ -4,7 +4,6 @@ using MartianRobots.Service;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MartianRobots
 {
@@ -35,8 +34,13 @@ namespace MartianRobots
                 if (inputData == null)
                     throw new ArgumentNullException(nameof(inputData));
 
-                var robotCommandService = new RobotCommandService(inputData.Robots, inputData.RobotsCommands);
+                var map = new Map(inputData.MapWidth, inputData.MapHeight);
+                var robots = inputData.Robots;
+                var robotCommandService = new RobotCommandService(map, robots, inputData.RobotsCommands);
                 robotCommandService.LaunchAllRobots();
+
+                foreach (var robot in robots)                
+                    Console.WriteLine(robot.ToString());
             }
             catch(Exception ex)
             {
