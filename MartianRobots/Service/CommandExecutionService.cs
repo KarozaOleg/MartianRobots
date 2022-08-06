@@ -16,15 +16,15 @@ namespace MartianRobots.Service
             DropOffHashCodes = new HashSet<int>();
         }
 
-        public void ExecuteCommand(Robot robot, CommandType commandType, Command command)
+        public void ExecuteCommand(Robot robot, Command command)
         {
             if (robot.IsLost)
                 return;
-
-            switch (commandType)
+            
+            switch (ReturnCommandType(command))
             {
                 case CommandType.Turning:
-                    var directionNew = ReturnNewDirection(robot.Direction, command);
+                    var directionNew = ReturnNewDirectionAfterTurning(robot.Direction, command);
                     robot.SetDirection(directionNew);
                     break;
 
@@ -33,11 +33,11 @@ namespace MartianRobots.Service
                     if (DropOffHashCodes.Contains(movingHashCode))
                         return;
 
-                    var coordinatesNew = ReturnNewCoordinates(robot.Coordinates, robot.Direction, command);
+                    var coordinatesNew = ReturnNewCoordinatesAfterMoving(robot.Coordinates, robot.Direction, command);
                     if (Map.IsCoordinatesOutOfMap(coordinatesNew))
                     {
                         DropOffHashCodes.Add(movingHashCode);
-                        robot.SetIsLostToTrue();
+                        robot.SetIsLostMarkToTrue();
                     }
                     else
                         robot.SetCoordinates(coordinatesNew);
@@ -48,7 +48,18 @@ namespace MartianRobots.Service
             }        
         }
 
-        private Direction ReturnNewDirection(Direction direction, Command command)
+        protected virtual CommandType ReturnCommandType(Command command)
+        {
+            return command switch
+            {
+                Command.Left => CommandType.Turning,
+                Command.Right => CommandType.Turning,
+                Command.Forward => CommandType.Moving,
+                _ => throw new ArgumentException($"unknown command:{command}")
+            };
+        }
+
+        protected virtual Direction ReturnNewDirectionAfterTurning(Direction direction, Command command)
         {
             return command switch
             {
@@ -79,16 +90,16 @@ namespace MartianRobots.Service
             return robotDirectionNew;
         }
 
-        private Coordinates ReturnNewCoordinates(Coordinates coordinates, Direction direction, Command command)
+        protected virtual Coordinates ReturnNewCoordinatesAfterMoving(Coordinates coordinates, Direction direction, Command command)
         {
             return command switch
             {
-                Command.Forward => ReturnNewCoordinates(coordinates, direction),
+                Command.Forward => ReturnNewCoordinatesAfterMovingForward(coordinates, direction),
                 _ => throw new ArgumentException($"wrong moving command - {command}"),
             };
         }
 
-        private Coordinates ReturnNewCoordinates(Coordinates coordinatesCurrent, Direction direction)
+        private Coordinates ReturnNewCoordinatesAfterMovingForward(Coordinates coordinatesCurrent, Direction direction)
         {
             var coordinateNewX = coordinatesCurrent.X;
             var coordinateNewY = coordinatesCurrent.Y;

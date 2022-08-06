@@ -29,9 +29,8 @@ namespace MartianRobots
         {
             try
             {
-                //var inputDataRepository = new InputDataStringsRepository();
-                //var inputDataService = new InputDataFromStringsService(inputDataRepository.GetInputData());
-                var inputDataService = new InputDataFromAppMemoryService();
+                var inputDataRepository = new InputDataStringsRepository();
+                var inputDataService = new InputDataFromStringsService(inputDataRepository.GetInputData());
                 var inputData = inputDataService.GetInputData();
                 if (inputData == null)
                     throw new ArgumentNullException(nameof(inputData));
@@ -48,7 +47,7 @@ namespace MartianRobots
                         continue;
 
                     foreach (var command in robotCommands[robot.Id])
-                        commandExecutionService.ExecuteCommand(robot, command.Type, command.Value);
+                        commandExecutionService.ExecuteCommand(robot, command);
                 }
 
                 foreach (var robot in robots)                

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace MartianRobots.Model
 {
@@ -24,17 +24,17 @@ namespace MartianRobots.Model
 
         public void SetCoordinates(Coordinates coordinates)
         {
-            Coordinates = coordinates;
+            Coordinates = coordinates ?? throw new ArgumentNullException(nameof(coordinates));
         }
 
-        public void SetIsLostToTrue()
+        public void SetIsLostMarkToTrue()
         {
             IsLost = true;
         }
 
         public override string ToString()
-        {
-            return $"{Coordinates} {Direction.ToString()[0]}{(IsLost ? " LOST" : string.Empty)}";
+        {            
+            return $"{Coordinates} {Direction.ToString().First()}{(IsLost ? " LOST" : string.Empty)}";
         }
     }
 }

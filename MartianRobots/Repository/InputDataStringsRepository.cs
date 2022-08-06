@@ -11,7 +11,7 @@
                 "RFRFRFRF",
                 "3 2 N",
                 "FRRFLLFFRRFLL",
-                "03 W",
+                "0 3 W",
                 "LLFFFLFLFL"
             };
         }

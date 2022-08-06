@@ -16,52 +16,48 @@ namespace MartianRobots.Service
             };
             var robotsCommands = new List<RobotCommand>()
             {
-                new RobotCommand(0, new List<(CommandType type, Command command)>()
+                new RobotCommand(0, new List<Command>()
                 { 
-                    //RF,RF,RF,RF
-                    new (CommandType.Turning, Command.Right),
-                    new (CommandType.Moving, Command.Forward),
-                    new (CommandType.Turning, Command.Right),
-                    new (CommandType.Moving, Command.Forward),
-                    new (CommandType.Turning, Command.Right),
-                    new (CommandType.Moving, Command.Forward),
-                    new (CommandType.Turning, Command.Right),
-                    new (CommandType.Moving, Command.Forward)
+                    //RFRFRFRF
+                    Command.Right,
+                    Command.Forward,
+                    Command.Right,
+                    Command.Forward,
+                    Command.Right,
+                    Command.Forward,
+                    Command.Right,
+                    Command.Forward
                 }),
-                new RobotCommand(1, new List<(CommandType type, Command command)>()
+                new RobotCommand(1, new List<Command>()
                 {
                     //FRRFLLFFRRFLL
-                    new (CommandType.Moving, Command.Forward),
-                    new (CommandType.Turning, Command.Right),
-                    new (CommandType.Turning, Command.Right),
-                    new (CommandType.Moving, Command.Forward),
-                    new (CommandType.Turning, Command.Left),
-                    new (CommandType.Turning, Command.Left),
-                    new (CommandType.Moving, Command.Forward),
-                    new (CommandType.Moving, Command.Forward),
-                    new (CommandType.Turning, Command.Right),
-                    new (CommandType.Turning, Command.Right),
-                    new (CommandType.Moving, Command.Forward),
-                    new (CommandType.Turning, Command.Left),
-                    new (CommandType.Turning, Command.Left)
+                    Command.Forward,
+                    Command.Right,
+                    Command.Right,
+                    Command.Forward,
+                    Command.Left,
+                    Command.Left,
+                    Command.Forward,
+                    Command.Forward,
+                    Command.Right,
+                    Command.Right,
+                    Command.Forward,
+                    Command.Left,
+                    Command.Left
                 }),
-                new RobotCommand(2, new List<(CommandType type, Command command)>()
+                new RobotCommand(2, new List<Command>()
                 {
                     //LL,FFF,LF,LF,L
-                    new (CommandType.Turning, Command.Left),
-                    new (CommandType.Turning, Command.Left),
-
-                    new (CommandType.Moving, Command.Forward),
-                    new (CommandType.Moving, Command.Forward),
-                    new (CommandType.Moving, Command.Forward),
-
-                    new (CommandType.Turning, Command.Left),
-                    new (CommandType.Moving, Command.Forward),
-
-                    new (CommandType.Turning, Command.Left),
-                    new (CommandType.Moving, Command.Forward),
-
-                    new (CommandType.Turning, Command.Left)
+                    Command.Left,
+                    Command.Left,
+                    Command.Forward,
+                    Command.Forward,
+                    Command.Forward,
+                    Command.Left,
+                    Command.Forward,
+                    Command.Left,
+                    Command.Forward,
+                    Command.Left
                 })
             };
             return new InputData(5, 3, robots, robotsCommands);
