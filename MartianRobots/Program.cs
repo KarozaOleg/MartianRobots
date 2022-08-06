@@ -3,6 +3,8 @@ using MartianRobots.Repository;
 using MartianRobots.Service;
 using NLog;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MartianRobots
 {
@@ -35,9 +37,19 @@ namespace MartianRobots
                     throw new ArgumentNullException(nameof(inputData));
 
                 var map = new Map(inputData.MapWidth, inputData.MapHeight);
+                var commandExecutionService = new CommandExecutionService(map);
+
                 var robots = inputData.Robots;
-                var robotCommandService = new RobotCommandService(map, robots, inputData.RobotsCommands);
-                robotCommandService.LaunchAllRobots();
+                var robotCommands = inputData.RobotsCommands.ToDictionary(c => c.Id, c => c.Commands);
+
+                foreach (var robot in robots)
+                {
+                    if (robotCommands.ContainsKey(robot.Id) == false)
+                        continue;
+
+                    foreach (var command in robotCommands[robot.Id])
+                        commandExecutionService.ExecuteCommand(robot, command.Type, command.Value);
+                }
 
                 foreach (var robot in robots)                
                     Console.WriteLine(robot.ToString());

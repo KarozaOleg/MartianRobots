@@ -5,70 +5,47 @@ using System.Linq;
 
 namespace MartianRobots.Service
 {
-    public class RobotCommandService
+    public class CommandExecutionService
     {
         private Map Map { get; }
-        private Dictionary<int, Robot> RobotsById { get; }
-        private List<RobotCommand> RobotsCommands { get; }
+        private HashSet<int> DropOffHashCodes { get; }
 
-        public RobotCommandService(Map map, List<Robot> robots, List<RobotCommand> robotsCommands)
+        public CommandExecutionService(Map map)
         {
             Map = map ?? throw new ArgumentException(nameof(map));
-            RobotsById = ReturnRobotsById(robots) ?? throw new ArgumentNullException(nameof(robots));
-            RobotsCommands = robotsCommands ?? throw new ArgumentNullException(nameof(robotsCommands));
+            DropOffHashCodes = new HashSet<int>();
         }
 
-        private Dictionary<int, Robot> ReturnRobotsById(List<Robot> robots)
+        public void ExecuteCommand(Robot robot, CommandType commandType, Command command)
         {
-            if (robots == null)
-                throw new ArgumentNullException(nameof(robots));
+            if (robot.IsLost)
+                return;
 
-            return robots
-                .GroupBy(r => r.Id)
-                .ToDictionary(r => r.Key, r => r.Single());
-        }
-
-        public void LaunchAllRobots()
-        {
-            var badPoints = new HashSet<int>();
-            foreach (var robotCommands in RobotsCommands)
+            switch (commandType)
             {
-                if (RobotsById.ContainsKey(robotCommands.Id) == false)
-                    throw new KeyNotFoundException($"{robotCommands.Id} in RobotsById");
+                case CommandType.Turning:
+                    var directionNew = ReturnNewDirection(robot.Direction, command);
+                    robot.SetDirection(directionNew);
+                    break;
 
-                var robot = RobotsById[robotCommands.Id];
-                foreach (var command in robotCommands.Commands)
-                {
-                    if (robot.IsLost)
-                        continue;
+                case CommandType.Moving:
+                    var movingHashCode = HashCode.Combine(robot.Coordinates.GetHashCode(), robot.Direction.GetHashCode());
+                    if (DropOffHashCodes.Contains(movingHashCode))
+                        return;
 
-                    switch (command.Type)
+                    var coordinatesNew = ReturnNewCoordinates(robot.Coordinates, robot.Direction, command);
+                    if (Map.IsCoordinatesOutOfMap(coordinatesNew))
                     {
-                        case CommandType.Turning:
-                            var directionNew = ReturnNewDirection(robot.Direction, command.Value);
-                            robot.SetDirection(directionNew);
-                            break;
-
-                        case CommandType.Moving:
-                            var movingHashCode = HashCode.Combine(robot.Coordinates.GetHashCode(), robot.Direction.GetHashCode());
-                            if (badPoints.Contains(movingHashCode))
-                                continue;
-
-                            var coordinatesNew = ReturnNewCoordinates(robot.Coordinates, robot.Direction, command.Value);
-                            if (Map.IsCoordinatesOutOfMap(coordinatesNew))
-                            {
-                                badPoints.Add(movingHashCode);
-                                robot.SetIsLostToTrue();
-                            }
-                            else
-                                robot.SetCoordinates(coordinatesNew);
-                            break;
-
-                        default:
-                            throw new ArgumentException($"wrong type of command - {command.Type}");
+                        DropOffHashCodes.Add(movingHashCode);
+                        robot.SetIsLostToTrue();
                     }
-                }
-            }
+                    else
+                        robot.SetCoordinates(coordinatesNew);
+                    break;
+
+                default:
+                    throw new ArgumentException($"wrong type of command - {command}");
+            }        
         }
 
         private Direction ReturnNewDirection(Direction direction, Command command)
