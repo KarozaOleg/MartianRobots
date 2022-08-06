@@ -1,4 +1,7 @@
-﻿namespace MartianRobots.Model
+﻿using System;
+using System.Collections.Generic;
+
+namespace MartianRobots.Model
 {
     public class Robot
     {
@@ -7,11 +10,11 @@
         public Coordinates Coordinates { get; private set; }
         public bool IsLost { get; private set; }
 
-        public Robot(int id, Direction direction, Coordinates coordinates)
+        public Robot(int id, Coordinates coordinates, Direction direction)
         {
             Id = id;
+            Coordinates = coordinates ?? throw new ArgumentNullException(nameof(coordinates));
             Direction = direction;
-            Coordinates = coordinates;
         }
 
         public void SetDirection(Direction direction)
@@ -31,7 +34,7 @@
 
         public override string ToString()
         {
-            return $"{Coordinates}{(IsLost ? " LOST" : string.Empty)}";
+            return $"{Coordinates} {Direction.ToString()[0]}{(IsLost ? " LOST" : string.Empty)}";
         }
     }
 }

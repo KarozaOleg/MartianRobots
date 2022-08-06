@@ -30,6 +30,7 @@ namespace MartianRobots.Service
 
         public void LaunchAllRobots()
         {
+            var badPoints = new HashSet<int>();
             foreach (var robotCommands in RobotsCommands)
             {
                 if (RobotsById.ContainsKey(robotCommands.Id) == false)
@@ -38,43 +39,49 @@ namespace MartianRobots.Service
                 var robot = RobotsById[robotCommands.Id];
                 foreach (var command in robotCommands.Commands)
                 {
-                    HandleRobotCommand(robot, command.Value);
-                    if (command.Type == CommandType.Turning)
-                        if (Map.IsNewCoordinatesInMap(robot.Coordinates) == false)
-                            robot.SetIsLostToTrue();
+                    if (robot.IsLost)
+                        continue;
+
+                    switch (command.Type)
+                    {
+                        case CommandType.Turning:
+                            var directionNew = ReturnNewDirection(robot.Direction, command.Value);
+                            robot.SetDirection(directionNew);
+                            break;
+
+                        case CommandType.Moving:
+                            var movingHashCode = HashCode.Combine(robot.Coordinates.GetHashCode(), robot.Direction.GetHashCode());
+                            if (badPoints.Contains(movingHashCode))
+                                continue;
+
+                            var coordinatesNew = ReturnNewCoordinates(robot.Coordinates, robot.Direction, command.Value);
+                            if (Map.IsCoordinatesOutOfMap(coordinatesNew))
+                            {
+                                badPoints.Add(movingHashCode);
+                                robot.SetIsLostToTrue();
+                            }
+                            else
+                                robot.SetCoordinates(coordinatesNew);
+                            break;
+
+                        default:
+                            throw new ArgumentException($"wrong type of command - {command.Type}");
+                    }
                 }
             }
         }
 
-        private void HandleRobotCommand(Robot robot, Command command)
+        private Direction ReturnNewDirection(Direction direction, Command command)
         {
-            switch (command)
+            return command switch
             {
-                case Command.Left:
-                    {
-                        var robotDirectionNew = ReturnRobotDirectionAfterTurnLeft(robot.Direction);
-                        robot.SetDirection(robotDirectionNew);
-                        break;
-                    }
-
-                case Command.Right:
-                    {
-                        var robotDirectionNew = ReturnRobotDirectionAfterTurnRight(robot.Direction);
-                        robot.SetDirection(robotDirectionNew);
-                        break;
-                    }
-
-                case Command.Forward:
-                    var robotCoordinatesNew = ReturnNewCoordinates(robot.Coordinates, robot.Direction);
-                    robot.SetCoordinates(robotCoordinatesNew);
-                    break;
-
-                default:
-                    throw new ArgumentException($"wrong robot command - {command}");
-            }
+                Command.Left => ReturnDirectionAfterTurnLeft(direction),
+                Command.Right => ReturnDirectionAfterTurnRight(direction),
+                _ => throw new ArgumentException($"wrong turning command - {command}")
+            };           
         }
 
-        private Direction ReturnRobotDirectionAfterTurnLeft(Direction robotDirectionCurrent)
+        private Direction ReturnDirectionAfterTurnLeft(Direction robotDirectionCurrent)
         {
             var robotDirectionNew = robotDirectionCurrent - 1;
 
@@ -84,7 +91,7 @@ namespace MartianRobots.Service
             return robotDirectionNew;
         }
 
-        private Direction ReturnRobotDirectionAfterTurnRight(Direction robotDirectionCurrent)
+        private Direction ReturnDirectionAfterTurnRight(Direction robotDirectionCurrent)
         {
             var robotDirectionNew = robotDirectionCurrent + 1;
             var robotDirectionMax = Enum.GetNames(typeof(Direction)).Length;
@@ -93,6 +100,15 @@ namespace MartianRobots.Service
                 robotDirectionNew = Enum.GetValues(typeof(Direction)).Cast<Direction>().First();
 
             return robotDirectionNew;
+        }
+
+        private Coordinates ReturnNewCoordinates(Coordinates coordinates, Direction direction, Command command)
+        {
+            return command switch
+            {
+                Command.Forward => ReturnNewCoordinates(coordinates, direction),
+                _ => throw new ArgumentException($"wrong moving command - {command}"),
+            };
         }
 
         private Coordinates ReturnNewCoordinates(Coordinates coordinatesCurrent, Direction direction)
@@ -118,7 +134,7 @@ namespace MartianRobots.Service
                     break;
 
                 default:
-                    throw new ArgumentException($"wrong robot direction - {direction}");
+                    throw new ArgumentException($"wrong direction - {direction}");
 
             }
             return new Coordinates(coordinateNewX, coordinateNewY);

@@ -3,7 +3,6 @@ using MartianRobots.Repository;
 using MartianRobots.Service;
 using NLog;
 using System;
-using System.Collections.Generic;
 
 namespace MartianRobots
 {
@@ -28,8 +27,9 @@ namespace MartianRobots
         {
             try
             {
-                var inputDataRepository = new InputDataFromAppMemoryRepository();
-                var inputDataService = new InputDataFromStringsService(inputDataRepository.GetInputData());
+                //var inputDataRepository = new InputDataStringsRepository();
+                //var inputDataService = new InputDataFromStringsService(inputDataRepository.GetInputData());
+                var inputDataService = new InputDataFromAppMemoryService();
                 var inputData = inputDataService.GetInputData();
                 if (inputData == null)
                     throw new ArgumentNullException(nameof(inputData));

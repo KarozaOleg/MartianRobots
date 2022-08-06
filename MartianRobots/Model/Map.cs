@@ -22,14 +22,14 @@ namespace MartianRobots.Model
             Height = height;
         }
 
-        public bool IsNewCoordinatesInMap(Coordinates coordinates)
+        public bool IsCoordinatesOutOfMap(Coordinates coordinates)
         {
             if (coordinates.X < 0 || coordinates.Y < 0)
-                return false;
+                return true;
             if (coordinates.X > Width || coordinates.Y > Height)
-                return false;
+                return true;
 
-            return true;
+            return false;
         }
     }
 }

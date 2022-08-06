@@ -1,6 +1,6 @@
 ﻿namespace MartianRobots.Repository
 {
-    internal class InputDataFromAppMemoryRepository
+    internal class InputDataStringsRepository
     {
         internal string[] GetInputData()
         {
