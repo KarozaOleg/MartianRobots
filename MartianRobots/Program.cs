@@ -22,7 +22,7 @@ namespace MartianRobots
                 Logger = LogManager.GetCurrentClassLogger();
 
                 var inputDataRepository = new InputDataStringsRepository();
-                var inputDataService = new InputDataFromStringsService(inputDataRepository.GetInputData());
+                var inputDataService = new InputDataFromStringsService(inputDataRepository.GetInputDataStrings());
                 var inputData = inputDataService.GetInputData();
 
                 var inputDataValidateService = new InputDataValidateService();
@@ -65,7 +65,7 @@ namespace MartianRobots
 
         static string ReturnRobotStatus(Robot robot)
         {
-            return $"{robot.Coordinates} {robot.Direction.ToString().First()}{(robot.IsLost ? " LOST" : string.Empty)}";
+            return $"{robot.Coordinates} {robot.Orientation.ToString().First()}{(robot.IsLost ? " LOST" : string.Empty)}";
         }
     }
 }

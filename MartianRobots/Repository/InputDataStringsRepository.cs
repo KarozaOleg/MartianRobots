@@ -1,8 +1,11 @@
 ﻿namespace MartianRobots.Repository
 {
+    /// <summary>
+    /// Represent a storage of strings which may be used as input data for application
+    /// </summary>
     internal class InputDataStringsRepository
     {
-        internal string[] GetInputData()
+        internal string[] GetInputDataStrings()
         {
             return new string[]
             {

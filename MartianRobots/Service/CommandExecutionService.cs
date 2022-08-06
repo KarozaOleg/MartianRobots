@@ -24,16 +24,16 @@ namespace MartianRobots.Service
             switch (ReturnCommandType(command))
             {
                 case CommandType.Turning:
-                    var directionNew = ReturnNewDirectionAfterTurning(robot.Direction, command);
-                    robot.SetDirection(directionNew);
+                    var orientationNew = ReturnOrientationAfterTurning(robot.Orientation, command);
+                    robot.SetOrientation(orientationNew);
                     break;
 
                 case CommandType.Moving:
-                    var movingHashCode = HashCode.Combine(robot.Coordinates.GetHashCode(), robot.Direction.GetHashCode());
+                    var movingHashCode = HashCode.Combine(robot.Coordinates.GetHashCode(), robot.Orientation.GetHashCode());
                     if (DropOffHashCodes.Contains(movingHashCode))
                         return;
 
-                    var coordinatesNew = ReturnNewCoordinatesAfterMoving(robot.Coordinates, robot.Direction, command);
+                    var coordinatesNew = ReturnCoordinatesAfterMoving(robot.Coordinates, robot.Orientation, command);
                     if (Map.IsCoordinatesOutOfMap(coordinatesNew))
                     {
                         DropOffHashCodes.Add(movingHashCode);
@@ -59,70 +59,70 @@ namespace MartianRobots.Service
             };
         }
 
-        protected virtual Direction ReturnNewDirectionAfterTurning(Direction direction, Command command)
+        protected virtual Orientation ReturnOrientationAfterTurning(Orientation orientation, Command command)
         {
             return command switch
             {
-                Command.Left => ReturnDirectionAfterTurnLeft(direction),
-                Command.Right => ReturnDirectionAfterTurnRight(direction),
+                Command.Left => ReturnOrientationAfterTurnLeft(orientation),
+                Command.Right => ReturnOrientationAfterTurnRight(orientation),
                 _ => throw new ArgumentException($"wrong turning command - {command}")
             };           
         }
 
-        private Direction ReturnDirectionAfterTurnLeft(Direction robotDirectionCurrent)
+        private Orientation ReturnOrientationAfterTurnLeft(Orientation orientationCurrent)
         {
-            var robotDirectionNew = robotDirectionCurrent - 1;
+            var orientation = orientationCurrent - 1;
 
-            if ((int)robotDirectionNew < 0)
-                robotDirectionNew = Enum.GetValues(typeof(Direction)).Cast<Direction>().Last();
+            if ((int)orientation < 0)
+                orientation = Enum.GetValues(typeof(Orientation)).Cast<Orientation>().Last();
 
-            return robotDirectionNew;
+            return orientation;
         }
 
-        private Direction ReturnDirectionAfterTurnRight(Direction robotDirectionCurrent)
+        private Orientation ReturnOrientationAfterTurnRight(Orientation orientationCurrent)
         {
-            var robotDirectionNew = robotDirectionCurrent + 1;
-            var robotDirectionMax = Enum.GetNames(typeof(Direction)).Length;
+            var orientation = orientationCurrent + 1;
+            var orientationMax = Enum.GetNames(typeof(Orientation)).Length;
 
-            if ((int)robotDirectionNew >= robotDirectionMax)
-                robotDirectionNew = Enum.GetValues(typeof(Direction)).Cast<Direction>().First();
+            if ((int)orientation >= orientationMax)
+                orientation = Enum.GetValues(typeof(Orientation)).Cast<Orientation>().First();
 
-            return robotDirectionNew;
+            return orientation;
         }
 
-        protected virtual Coordinates ReturnNewCoordinatesAfterMoving(Coordinates coordinates, Direction direction, Command command)
+        protected virtual Coordinates ReturnCoordinatesAfterMoving(Coordinates coordinates, Orientation orientation, Command command)
         {
             return command switch
             {
-                Command.Forward => ReturnNewCoordinatesAfterMovingForward(coordinates, direction),
+                Command.Forward => ReturnCoordinatesAfterMovingForward(coordinates, orientation),
                 _ => throw new ArgumentException($"wrong moving command - {command}"),
             };
         }
 
-        private Coordinates ReturnNewCoordinatesAfterMovingForward(Coordinates coordinatesCurrent, Direction direction)
+        private Coordinates ReturnCoordinatesAfterMovingForward(Coordinates coordinatesCurrent, Orientation orientation)
         {
             var coordinateNewX = coordinatesCurrent.X;
             var coordinateNewY = coordinatesCurrent.Y;
-            switch (direction)
+            switch (orientation)
             {
-                case Direction.North:
+                case Orientation.North:
                     coordinateNewY = coordinatesCurrent.Y + 1;
                     break;
 
-                case Direction.East:
+                case Orientation.East:
                     coordinateNewX = coordinatesCurrent.X + 1;
                     break;
 
-                case Direction.South:
+                case Orientation.South:
                     coordinateNewY = coordinatesCurrent.Y - 1;
                     break;
 
-                case Direction.West:
+                case Orientation.West:
                     coordinateNewX = coordinatesCurrent.X - 1;
                     break;
 
                 default:
-                    throw new ArgumentException($"wrong direction - {direction}");
+                    throw new ArgumentException($"wrong orientation - {orientation}");
 
             }
             return new Coordinates(coordinateNewX, coordinateNewY);

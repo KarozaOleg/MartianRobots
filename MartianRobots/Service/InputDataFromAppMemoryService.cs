@@ -10,9 +10,9 @@ namespace MartianRobots.Service
         {
             var robots = new List<Robot>()
             {
-                new Robot(0, new Coordinates(1, 1), Direction.East),
-                new Robot(1, new Coordinates(3, 2), Direction.North),
-                new Robot(2, new Coordinates(0, 3), Direction.West)
+                new Robot(0, new Coordinates(1, 1), Orientation.East),
+                new Robot(1, new Coordinates(3, 2), Orientation.North),
+                new Robot(2, new Coordinates(0, 3), Orientation.West)
             };
             var robotsCommands = new List<RobotCommand>()
             {

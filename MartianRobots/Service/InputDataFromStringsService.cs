@@ -52,7 +52,7 @@ namespace MartianRobots.Service
                         throw new InvalidCastException($"cast robot x coordinate:{lineSplitted[0]} into integer");
                     if (int.TryParse(lineSplitted[1], out var y) == false)
                         throw new InvalidCastException($"cast robot y coordinate:{lineSplitted[1]} into integer");
-                    if (ParseEnum(lineSplitted[2], out Direction direction) == false)
+                    if (ParseEnum(lineSplitted[2], out Orientation direction) == false)
                         throw new InvalidCastException($"cast robot direction:{lineSplitted[2]} into enum item");
 
                     var robot = new Robot(robotId, new Coordinates(x, y), direction);

@@ -2,7 +2,10 @@
 
 namespace MartianRobots.Model
 {
-    public class Coordinates : ICloneable
+    /// <summary>
+    /// Represents a position on the map
+    /// </summary>
+    public class Coordinates
     {
         public int X { get; }
         public int Y { get; }
@@ -11,12 +14,6 @@ namespace MartianRobots.Model
         {
             X = x;
             Y = y;
-        }
-
-        private Coordinates(Coordinates coordinates)
-        {
-            X = coordinates.X;
-            Y = coordinates.Y;
         }
 
         public override string ToString()
@@ -34,11 +31,6 @@ namespace MartianRobots.Model
         public override int GetHashCode()
         {
             return HashCode.Combine(X, Y);
-        }
-
-        public object Clone()
-        {
-            return new Coordinates(this);
         }
     }
 }

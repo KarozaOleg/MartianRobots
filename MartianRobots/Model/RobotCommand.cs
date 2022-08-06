@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MartianRobots.Model
 {
+    /// <summary>
+    /// Represent command for robot, has id of robot and array of commands
+    /// </summary>
     public class RobotCommand
     {
         public int Id { get; }

@@ -9,12 +9,21 @@ namespace MartianRobots.Service
         internal virtual int CoordinateValueMax { get; }
         internal virtual int RobotCommandsAmoutMax { get; }
 
+        /// <summary>
+        /// Represents a validation methods for application input data
+        /// </summary>
         public InputDataValidateService()
         {
             CoordinateValueMax = 50;
             RobotCommandsAmoutMax = 100;
         }
 
+        /// <summary>
+        /// Validate application input data
+        /// </summary>
+        /// <param name="inputData"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void Validate(InputData inputData)
         {
             if (inputData == null)

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MartianRobots.Model
 {
+    /// <summary>
+    /// Represent input data for application
+    /// </summary>
     public class InputData
     {
         public int MapWidth { get; }

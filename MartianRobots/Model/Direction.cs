@@ -1,6 +1,9 @@
 ﻿namespace MartianRobots.Model
 {
-    public enum Direction
+    /// <summary>
+    /// Orientation of robot
+    /// </summary>
+    public enum Orientation
     {
         North = 0,
         East,
