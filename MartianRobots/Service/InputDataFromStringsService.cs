@@ -15,16 +15,7 @@ namespace MartianRobots.Service
         {
             InputDataStrings = inputDataStrings ?? throw new ArgumentNullException(nameof(inputDataStrings));
         }
-                
-        /*        
-        5 3
-        1 1 E
-        RFRFRFRF
-        3 2 N
-        FRRFLLFFRRFLL
-        0 3 W
-        LLFFFLFLFL
-        */
+
         public InputData GetInputData()
         {
             if (InputData == null)
@@ -100,7 +91,7 @@ namespace MartianRobots.Service
             };
         }
         
-        private static bool ParseEnum<T>(string str, out T value)
+        private bool ParseEnum<T>(string str, out T value)
         {
             value = default(T);
             foreach (T item in (T[])Enum.GetValues(typeof(T)))

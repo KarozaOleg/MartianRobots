@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace MartianRobots.Model
 {
@@ -30,11 +29,6 @@ namespace MartianRobots.Model
         public void SetIsLostMarkToTrue()
         {
             IsLost = true;
-        }
-
-        public override string ToString()
-        {            
-            return $"{Coordinates} {Direction.ToString().First()}{(IsLost ? " LOST" : string.Empty)}";
         }
     }
 }
