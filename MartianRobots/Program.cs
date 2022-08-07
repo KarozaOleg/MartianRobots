@@ -48,12 +48,13 @@ namespace MartianRobots
                 {
                     if (RobotsCommands.ContainsKey(robot.Id) == false)
                         continue;
-                    if (robot.IsLost)
-                        continue;
                     foreach (var robotCommand in RobotsCommands[robot.Id])
+                    {
+                        if (robot.IsLost)
+                            break;
                         robotCommand.Execute(robot, Map);
+                    }
                 }
-
                 foreach (var robot in Robots)
                     Console.WriteLine(OutputService.GetRobotStatus(robot));
             }
