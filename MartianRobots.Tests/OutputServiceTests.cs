@@ -23,5 +23,15 @@ namespace MartianRobots.Tests
             // Assert
             Assert.Equal(outputStrExcpected, outputStr);
         }
+
+        [Fact]
+        public void GetRobotStatus_PassNull_ThrowException()
+        {
+            // Act
+            Action act = () => OutputService.GetRobotStatus(null);
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(act);
+        }
     }
 }
