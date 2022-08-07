@@ -1,7 +1,8 @@
-﻿using System;
+﻿using MartianRobots.Interface;
+using System;
 using System.Collections.Generic;
 
-namespace MartianRobots.Model
+namespace MartianRobots.Commands
 {
     /// <summary>
     /// Represent command for robot, has id of robot and array of commands
@@ -9,9 +10,9 @@ namespace MartianRobots.Model
     public class RobotCommands
     {
         public int Id { get; }
-        public List<Command> Commands { get; }
+        public List<IRobotCommand> Commands { get; }
 
-        public RobotCommands(int id, List<Command> commands)
+        public RobotCommands(int id, List<IRobotCommand> commands)
         {
             Id = id;
             Commands = commands ?? throw new ArgumentNullException(nameof(commands));

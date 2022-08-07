@@ -1,4 +1,5 @@
-﻿using MartianRobots.Model;
+﻿using MartianRobots.Interface;
+using MartianRobots.Model;
 using MartianRobots.Repository;
 using MartianRobots.Service;
 using NLog;
@@ -12,8 +13,8 @@ namespace MartianRobots
     {
         private static ILogger Logger { get; }
         private static List<Robot> Robots { get; }
-        private static Dictionary<int, List<Command>> RobotsCommands { get; }
-        private static CommandExecutionService CommandExecutionService { get; }
+        private static Dictionary<int, List<IRobotCommand>> RobotsCommands { get; }
+        private static Map Map { get; }
 
         static Program()
         {
@@ -31,8 +32,7 @@ namespace MartianRobots
                 Robots = inputData.Robots;
                 RobotsCommands = inputData.RobotsCommands.ToDictionary(c => c.Id, c => c.Commands);
 
-                var map = new Map(inputData.MapWidth, inputData.MapHeight);
-                CommandExecutionService = new CommandExecutionService(map);
+                Map = new Map(inputData.MapWidth, inputData.MapHeight);
             }
             catch(Exception ex)
             {
@@ -50,8 +50,11 @@ namespace MartianRobots
                     if (RobotsCommands.ContainsKey(robot.Id) == false)
                         continue;
 
+                    if (robot.IsLost)
+                        continue;
+
                     foreach (var robotCommand in RobotsCommands[robot.Id])
-                        CommandExecutionService.ExecuteCommand(robot, robotCommand);
+                        robotCommand.Execute(robot, Map);
                 }
 
                 foreach (var robot in Robots)

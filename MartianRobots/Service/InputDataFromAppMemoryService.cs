@@ -1,4 +1,5 @@
-﻿using MartianRobots.Interface;
+﻿using MartianRobots.Commands;
+using MartianRobots.Interface;
 using MartianRobots.Model;
 using System.Collections.Generic;
 
@@ -16,48 +17,48 @@ namespace MartianRobots.Service
             };
             var robotsCommands = new List<RobotCommands>()
             {
-                new RobotCommands(0, new List<Command>()
+                new RobotCommands(0, new List<IRobotCommand>()
                 { 
                     //RFRFRFRF
-                    Command.Right,
-                    Command.Forward,
-                    Command.Right,
-                    Command.Forward,
-                    Command.Right,
-                    Command.Forward,
-                    Command.Right,
-                    Command.Forward
+                    RobotCommandTurnRight.GetInstance(),
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandTurnRight.GetInstance(),
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandTurnRight.GetInstance(),
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandTurnRight.GetInstance(),
+                    RobotCommandMoveForward.GetInstance()
                 }),
-                new RobotCommands(1, new List<Command>()
+                new RobotCommands(1, new List<IRobotCommand>()
                 {
                     //FRRFLLFFRRFLL
-                    Command.Forward,
-                    Command.Right,
-                    Command.Right,
-                    Command.Forward,
-                    Command.Left,
-                    Command.Left,
-                    Command.Forward,
-                    Command.Forward,
-                    Command.Right,
-                    Command.Right,
-                    Command.Forward,
-                    Command.Left,
-                    Command.Left
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandTurnRight.GetInstance(),
+                    RobotCommandTurnRight.GetInstance(),
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandTurnLeft.GetInstance(),
+                    RobotCommandTurnLeft.GetInstance(),
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandTurnRight.GetInstance(),
+                    RobotCommandTurnRight.GetInstance(),
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandTurnLeft.GetInstance(),
+                    RobotCommandTurnLeft.GetInstance()
                 }),
-                new RobotCommands(2, new List<Command>()
+                new RobotCommands(2, new List<IRobotCommand>()
                 {
                     //LL,FFF,LF,LF,L
-                    Command.Left,
-                    Command.Left,
-                    Command.Forward,
-                    Command.Forward,
-                    Command.Forward,
-                    Command.Left,
-                    Command.Forward,
-                    Command.Left,
-                    Command.Forward,
-                    Command.Left
+                    RobotCommandTurnLeft.GetInstance(),
+                    RobotCommandTurnLeft.GetInstance(),
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandTurnLeft.GetInstance(),
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandTurnLeft.GetInstance(),
+                    RobotCommandMoveForward.GetInstance(),
+                    RobotCommandTurnLeft.GetInstance()
                 })
             };
             return new InputData(5, 3, robots, robotsCommands);
