@@ -57,17 +57,12 @@ namespace MartianRobots
                 }
 
                 foreach (var robot in Robots)
-                    Console.WriteLine(ReturnRobotStatus(robot));
+                    Console.WriteLine(OutputService.GetRobotStatus(robot));
             }
             catch(Exception ex)
             {
                 Logger?.Error(ex, "main problem");
             }
-        }
-
-        static string ReturnRobotStatus(Robot robot)
-        {
-            return $"{robot.Coordinates} {robot.Orientation.ToString().First()}{(robot.IsLost ? " LOST" : string.Empty)}";
         }
     }
 }
