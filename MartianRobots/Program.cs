@@ -26,8 +26,7 @@ namespace MartianRobots
                 var inputDataService = new InputDataFromStringsService(inputDataRepository.GetInputDataStrings());
                 var inputData = inputDataService.GetInputData();
 
-                var inputDataValidateService = new InputDataValidateService();
-                inputDataValidateService.Validate(inputData);
+                InputDataValidateService.Validate(inputData);
 
                 Robots = inputData.Robots;
                 RobotsCommands = inputData.RobotsCommands.ToDictionary(c => c.Id, c => c.Commands);

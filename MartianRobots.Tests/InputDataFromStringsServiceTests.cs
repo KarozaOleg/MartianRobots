@@ -28,7 +28,7 @@ namespace MartianRobots.Tests
         [InlineData("0 3 W", 0, 3, Orientation.West)]
         [InlineData("1 7 S", 1, 7, Orientation.South)]
         [InlineData("0 0 W", 0, 0, Orientation.West)]
-        public void Robot_FromLine_Equal(string line, int x, int y, Orientation orientation)
+        public void ParseRobot_FromLine_Equal(string line, int x, int y, Orientation orientation)
         {
             // Arrange
             var robot = InputDataFromStringsService.ParseRobot(line, 0);
@@ -43,7 +43,7 @@ namespace MartianRobots.Tests
         [InlineData('L', typeof(RobotCommandTurnLeft))]
         [InlineData('R', typeof(RobotCommandTurnRight))]
         [InlineData('F', typeof(RobotCommandMoveForward))]
-        public void ParseRobotCommand_FromChar_Equal(char c, Type type)
+        public void ParseCommand_FromChar_Equal(char c, Type type)
         {
             // Arrange
             var robotCommand = InputDataFromStringsService.ParseCommand(c);
@@ -57,7 +57,7 @@ namespace MartianRobots.Tests
         [InlineData("LLL", 0, typeof(RobotCommandTurnLeft), typeof(RobotCommandTurnLeft), typeof(RobotCommandTurnLeft))]
         [InlineData("RRR", 0, typeof(RobotCommandTurnRight), typeof(RobotCommandTurnRight), typeof(RobotCommandTurnRight))]
         [InlineData("FFF", 0, typeof(RobotCommandMoveForward), typeof(RobotCommandMoveForward), typeof(RobotCommandMoveForward))]
-        public void ParseRobotCommand_FromLine_Equals(string line, int robotId, Type typeLeft, Type typeRight, Type typeForward)
+        public void ParseRobotCommands_FromLine_Equals(string line, int robotId, Type typeLeft, Type typeRight, Type typeForward)
         {
             // Arrange
             var robotCommands = InputDataFromStringsService.ParseRobotCommands(line, 0);
@@ -72,7 +72,7 @@ namespace MartianRobots.Tests
         }
 
         [Fact]
-        public void ParseInputData_FromLines_Equal()
+        public void GetInputData_FromLines_Equal()
         {
             // Arrange
             var inputStrings = new string[]
