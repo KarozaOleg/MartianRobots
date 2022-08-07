@@ -29,7 +29,7 @@ namespace MartianRobots.Service
             var mapWidth = default(int?);
             var mapHeight = default(int?);
             var robots = new List<Robot>();
-            var robotsCommands = new List<RobotCommand>();
+            var robotsCommands = new List<RobotCommands>();
 
             var robotId = 0;
             for (int i = 0; i < InputDataStrings.Length; i++)
@@ -52,10 +52,10 @@ namespace MartianRobots.Service
                         throw new InvalidCastException($"cast robot x coordinate:{lineSplitted[0]} into integer");
                     if (int.TryParse(lineSplitted[1], out var y) == false)
                         throw new InvalidCastException($"cast robot y coordinate:{lineSplitted[1]} into integer");
-                    if (ParseEnum(lineSplitted[2], out Orientation direction) == false)
-                        throw new InvalidCastException($"cast robot direction:{lineSplitted[2]} into enum item");
+                    if (ParseEnum(lineSplitted[2], out Orientation orientation) == false)
+                        throw new InvalidCastException($"cast robot orientation:{lineSplitted[2]} into enum item");
 
-                    var robot = new Robot(robotId, new Coordinates(x, y), direction);
+                    var robot = new Robot(robotId, new Coordinates(x, y), orientation);
                     robots.Add(robot);
                 }
                 //commands
@@ -65,7 +65,7 @@ namespace MartianRobots.Service
                         .ToCharArray()
                         .Select(c => ParseCommand(c))
                         .ToList();
-                    var robotCommands = new RobotCommand(robotId++, commands);
+                    var robotCommands = new RobotCommands(robotId++, commands);
                     robotsCommands.Add(robotCommands);
                 }
                 else

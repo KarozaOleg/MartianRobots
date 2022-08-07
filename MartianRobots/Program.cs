@@ -12,7 +12,7 @@ namespace MartianRobots
     {
         private static ILogger Logger { get; }
         private static List<Robot> Robots { get; }
-        private static Dictionary<int, List<Command>> Commands { get; }
+        private static Dictionary<int, List<Command>> RobotsCommands { get; }
         private static CommandExecutionService CommandExecutionService { get; }
 
         static Program()
@@ -29,7 +29,7 @@ namespace MartianRobots
                 inputDataValidateService.Validate(inputData);
 
                 Robots = inputData.Robots;
-                Commands = inputData.RobotsCommands.ToDictionary(c => c.Id, c => c.Commands);
+                RobotsCommands = inputData.RobotsCommands.ToDictionary(c => c.Id, c => c.Commands);
 
                 var map = new Map(inputData.MapWidth, inputData.MapHeight);
                 CommandExecutionService = new CommandExecutionService(map);
@@ -47,11 +47,11 @@ namespace MartianRobots
             {
                 foreach (var robot in Robots)
                 {
-                    if (Commands.ContainsKey(robot.Id) == false)
+                    if (RobotsCommands.ContainsKey(robot.Id) == false)
                         continue;
 
-                    foreach (var command in Commands[robot.Id])
-                        CommandExecutionService.ExecuteCommand(robot, command);
+                    foreach (var robotCommand in RobotsCommands[robot.Id])
+                        CommandExecutionService.ExecuteCommand(robot, robotCommand);
                 }
 
                 foreach (var robot in Robots)

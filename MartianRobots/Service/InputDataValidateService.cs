@@ -6,8 +6,8 @@ namespace MartianRobots.Service
 {
     public class InputDataValidateService
     {
-        internal virtual int CoordinateValueMax { get; }
-        internal virtual int RobotCommandsAmoutMax { get; }
+        protected virtual int CoordinateValueMax { get; }
+        protected virtual int RobotCommandsAmoutMax { get; }
 
         /// <summary>
         /// Represents a validation methods for application input data
@@ -53,10 +53,10 @@ namespace MartianRobots.Service
                 throw new ArgumentOutOfRangeException(nameof(robot.Coordinates.Y));
         }
 
-        protected virtual void ValidateCommands(List<RobotCommand> robotsCommands)
+        protected virtual void ValidateCommands(List<RobotCommands> robotsCommands)
         {
             foreach (var robotCommands in robotsCommands)
-                if (robotCommands.Commands.Count > RobotCommandsAmoutMax)
+                if (robotCommands.Commands.Count >= RobotCommandsAmoutMax)
                     throw new ArgumentOutOfRangeException("amount of robot commands more than max value");
         }
     }

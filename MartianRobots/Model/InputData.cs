@@ -11,9 +11,9 @@ namespace MartianRobots.Model
         public int MapWidth { get; }
         public int MapHeight { get; }
         public List<Robot> Robots { get; }
-        public List<RobotCommand> RobotsCommands { get; }
+        public List<RobotCommands> RobotsCommands { get; }
 
-        public InputData(int mapWidth, int mapHeight, List<Robot> robots, List<RobotCommand> robotsCommands)
+        public InputData(int mapWidth, int mapHeight, List<Robot> robots, List<RobotCommands> robotsCommands)
         {
             if (mapWidth < 1)
                 throw new ArgumentOutOfRangeException($"{nameof(mapWidth)} less than 1");

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MartianRobots.Model
 {
@@ -22,6 +18,11 @@ namespace MartianRobots.Model
             Height = height;
         }
 
+        /// <summary>
+        /// Check input coordinates in map boundaries
+        /// </summary>
+        /// <param name="coordinates"></param>
+        /// <returns>returns true if coordinates out of map</returns>
         public bool IsCoordinatesOutOfMap(Coordinates coordinates)
         {
             if (coordinates.X < 0 || coordinates.Y < 0)

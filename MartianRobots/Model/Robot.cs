@@ -3,7 +3,7 @@
 namespace MartianRobots.Model
 {
     /// <summary>
-    /// Represent a robot model, current direction, coordinates
+    /// Represent a robot model - current orientation, coordinates
     /// </summary>
     public class Robot
     {
@@ -15,13 +15,13 @@ namespace MartianRobots.Model
         public Robot(int id, Coordinates coordinates, Orientation orientation)
         {
             Id = id;
-            Coordinates = coordinates ?? throw new ArgumentNullException(nameof(coordinates));
-            Orientation = orientation;
+            SetCoordinates(coordinates);
+            SetOrientation(orientation);
         }
 
-        public void SetOrientation(Orientation direction)
+        public void SetOrientation(Orientation orientation)
         {
-            Orientation = direction;
+            Orientation = orientation;
         }
 
         public void SetCoordinates(Coordinates coordinates)

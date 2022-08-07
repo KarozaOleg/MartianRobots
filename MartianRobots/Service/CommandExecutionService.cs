@@ -24,8 +24,8 @@ namespace MartianRobots.Service
             switch (ReturnCommandType(command))
             {
                 case CommandType.Turning:
-                    var orientationNew = ReturnOrientationAfterTurning(robot.Orientation, command);
-                    robot.SetOrientation(orientationNew);
+                    var orientation = ReturnOrientationAfterTurning(robot.Orientation, command);
+                    robot.SetOrientation(orientation);
                     break;
 
                 case CommandType.Moving:
@@ -33,14 +33,14 @@ namespace MartianRobots.Service
                     if (DropOffHashCodes.Contains(movingHashCode))
                         return;
 
-                    var coordinatesNew = ReturnCoordinatesAfterMoving(robot.Coordinates, robot.Orientation, command);
-                    if (Map.IsCoordinatesOutOfMap(coordinatesNew))
+                    var coordinates = ReturnCoordinatesAfterMoving(robot.Coordinates, robot.Orientation, command);
+                    if (Map.IsCoordinatesOutOfMap(coordinates))
                     {
                         DropOffHashCodes.Add(movingHashCode);
                         robot.SetIsLostMarkToTrue();
                     }
                     else
-                        robot.SetCoordinates(coordinatesNew);
+                        robot.SetCoordinates(coordinates);
                     break;
 
                 default:

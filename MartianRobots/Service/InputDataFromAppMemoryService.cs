@@ -14,9 +14,9 @@ namespace MartianRobots.Service
                 new Robot(1, new Coordinates(3, 2), Orientation.North),
                 new Robot(2, new Coordinates(0, 3), Orientation.West)
             };
-            var robotsCommands = new List<RobotCommand>()
+            var robotsCommands = new List<RobotCommands>()
             {
-                new RobotCommand(0, new List<Command>()
+                new RobotCommands(0, new List<Command>()
                 { 
                     //RFRFRFRF
                     Command.Right,
@@ -28,7 +28,7 @@ namespace MartianRobots.Service
                     Command.Right,
                     Command.Forward
                 }),
-                new RobotCommand(1, new List<Command>()
+                new RobotCommands(1, new List<Command>()
                 {
                     //FRRFLLFFRRFLL
                     Command.Forward,
@@ -45,7 +45,7 @@ namespace MartianRobots.Service
                     Command.Left,
                     Command.Left
                 }),
-                new RobotCommand(2, new List<Command>()
+                new RobotCommands(2, new List<Command>()
                 {
                     //LL,FFF,LF,LF,L
                     Command.Left,
