@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MartianRobots.Commands
+namespace MartianRobots.Model
 {
     /// <summary>
     /// Represent command for robot, has id of robot and array of commands
