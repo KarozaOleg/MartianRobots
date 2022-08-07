@@ -5,6 +5,10 @@
     /// </summary>
     internal class InputDataStringsRepository
     {
+        /// <summary>
+        /// Returns array of strings which represents input data for application
+        /// </summary>
+        /// <returns></returns>
         internal string[] GetInputDataStrings()
         {
             return new string[]

@@ -7,13 +7,11 @@ namespace MartianRobots.Model
         private int Width { get; }
         private int Height { get; }
 
+        /// <summary>
+        /// Represents world map
+        /// </summary>
         public Map(int width, int height)
         {
-            if (width < 0)
-                throw new ArgumentOutOfRangeException($"{nameof(width)} less than zero");
-            if (height < 0)
-                throw new ArgumentOutOfRangeException($"{nameof(height)} less than zero");
-
             Width = width;
             Height = height;
         }

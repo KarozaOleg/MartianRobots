@@ -10,7 +10,7 @@ namespace MartianRobots.Service
         protected virtual int RobotCommandsAmoutMax { get; }
 
         /// <summary>
-        /// Represents a validation methods for application input data
+        /// Represents validation methods for application input data
         /// </summary>
         public InputDataValidateService()
         {
@@ -39,6 +39,10 @@ namespace MartianRobots.Service
 
         protected virtual void ValidateMapSize(int mapWidth, int mapHeight)
         {
+            if (mapWidth < 1)
+                throw new ArgumentOutOfRangeException($"{nameof(mapWidth)} less than 1");
+            if (mapHeight < 1)
+                throw new ArgumentOutOfRangeException($"{nameof(mapHeight)} less than 1");
             if (mapWidth > CoordinateValueMax)
                 throw new ArgumentOutOfRangeException(nameof(mapWidth));
             if (mapHeight > CoordinateValueMax)

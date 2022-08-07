@@ -10,12 +10,24 @@ namespace MartianRobots.Service
         private Map Map { get; }
         private HashSet<int> DropOffHashCodes { get; }
 
+        /// <summary>
+        /// Implemets logic for execute command for robot
+        /// </summary>
+        /// <param name="map"></param>
+        /// <exception cref="ArgumentException"></exception>
         public CommandExecutionService(Map map)
         {
             Map = map ?? throw new ArgumentException(nameof(map));
             DropOffHashCodes = new HashSet<int>();
         }
 
+        /// <summary>
+        /// Execute one command for robot
+        /// </summary>
+        /// <param name="robot"></param>
+        /// <param name="command"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public void ExecuteCommand(Robot robot, Command command)
         {
             if (robot.IsLost)

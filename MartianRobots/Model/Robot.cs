@@ -10,6 +10,9 @@ namespace MartianRobots.Model
         public int Id { get; }
         public Orientation Orientation { get; private set; }
         public Coordinates Coordinates { get; private set; }
+        /// <summary>
+        /// Shows current status of robot, lost means dropped out from map
+        /// </summary>
         public bool IsLost { get; private set; }
 
         public Robot(int id, Coordinates coordinates, Orientation orientation)

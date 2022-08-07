@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace MartianRobots.Service
 {
+    /// <summary>
+    /// Implements parsing algorithm input data strings
+    /// </summary>
     internal class InputDataFromStringsService : IInputDataService
     {
         private string[] InputDataStrings { get; }
