@@ -16,6 +16,7 @@ namespace MartianRobots.Model
         {
             Width = width;
             Height = height;
+            DropOffHashCodes = new HashSet<int>();
         }
 
         /// <summary>
